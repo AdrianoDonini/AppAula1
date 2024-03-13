@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState,} from 'react';
 import { View, StyleSheet, Image, number, SafeAreaView, TouchableOpacity } from "react-native";
 import { Card, TextInput, Text,} from 'react-native-paper';
 
@@ -36,6 +36,9 @@ export default function Login(){
           />
 </Card.Content>
 </Card>
+<TouchableOpacity>
+    <text>Entrar</text>
+</TouchableOpacity>
 </View>
   );
 }
