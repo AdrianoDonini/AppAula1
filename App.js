@@ -1,9 +1,10 @@
-import { View } from 'react-native-web';
-import Home from './components/home';
-import Login from './components/login';
+import React, { useState } from 'react';
+import Login from './components/login'; 
 
-export default function App() {
-  return (
-    <Login/>
-  ); 
-}
+export default function App() { 
+  const [user, setUser] = useState(null); 
+  //verifica se existe um usuário logado, se não houver chama a 
+  //tela de login 
+  if (!user) { 
+    return <Login changeStatus={(user) => setUser(user)} /> 
+  } } 
