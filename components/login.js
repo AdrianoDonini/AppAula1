@@ -38,41 +38,48 @@ export default function Login({changeStatus}) {
 
   return (
     <View style={styles.container}>
-      <SafeAreaView>
+      <SafeAreaView style={styles}>
       <Image style={styles.logo} source={require('../assets/user-account-login-icon.png')} />
-          <TextInput
-            style={styles.label}
-            mode="outlined"
-            label="Email"
-            outlineColor="#ff0000"
-            activeOutlineColor="#ff0000"
-            value={email}
-            onChangeText={(text) => setEmail(text)}
-          />
-          <TextInput
-            style={styles.label}
-            mode="outlined"
-            label="Senha"
-            secureTextEntry
-            value={password}
-            onChangeText={(text) => setPassword(text)}
-            outlineColor="#ff0000"
-            activeOutlineColor="#ff0000"
-          />
-          <TouchableOpacity
-            style={[styles.handleLogin,
-            { backgroundColor: type === 'login' ? '#4682B4' : '#141414' }]}
-            onPress={handleLogin}
-          >
-              <Text style={styles.loginText}>
-                {type === 'login' ? 'Acessar' : 'Cadastrar'}
+      <Card style={styles.styleCard}> 
+      <Card.Title title="" subtitle="" />
+      <Card.Content>
+            <TextInput
+              style={styles.label}
+              mode="outlined"
+              label="Email"
+              outlineColor="#ff0000"
+              activeOutlineColor="#ff0000"
+              value={email}
+              onChangeText={(text) => setEmail(text)}
+            />
+            <TextInput
+              style={styles.label}
+              mode="outlined"
+              label="Senha"
+              secureTextEntry
+              value={password}
+              onChangeText={(text) => setPassword(text)}
+              outlineColor="#ff0000"
+              activeOutlineColor="#ff0000"
+            />
+      </Card.Content>
+      </Card>
+        <Card.Content style={styles.mainContent}>
+            <TouchableOpacity
+              style={[styles.handleLogin,
+              { backgroundColor: type === 'login' ? '#4682B4' : '#141414' }]}
+              onPress={handleLogin}
+            >
+                <Text style={styles.loginText}>
+                  {type === 'login' ? 'Acessar' : 'Cadastrar'}
+                </Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => setType(type => type === 'login' ? 'cadastrar' : 'login')} >
+              <Text style={{ textAlign: 'center' }}>
+                {type === 'login' ? 'Criar uma conta' : 'Já possuo uma conta'}
               </Text>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => setType(type => type === 'login' ? 'cadastrar' : 'login')} >
-            <Text style={{ textAlign: 'center' }}>
-              {type === 'login' ? 'Criar uma conta' : 'Já possuo uma conta'}
-            </Text>
-          </TouchableOpacity>
+            </TouchableOpacity>
+        </Card.Content>
       </SafeAreaView>
     </View>
   );
@@ -82,7 +89,7 @@ const styles = StyleSheet.create({
 
   container: {
     flex: 1,
-    backgroundColor: "white",
+    backgroundColor: "#eee",
     textAlign: "center",
   },
 
@@ -91,7 +98,8 @@ const styles = StyleSheet.create({
     height: 300,
     justifyContent: "center",
     alignSelf: "center",
-    marginTop: 100,
+    marginTop: 10,
+    marginBottom:10,
   },
 
   label: {
@@ -110,5 +118,14 @@ const styles = StyleSheet.create({
     height: 45,
     marginTop: 30,
   },
+  mainContent:{
 
+    backgroundColor: 'none',
+    marginLeft: 10,
+    marginRight:10,
+  },
+  styleCard:{
+    backgroundColor: '#fff',
+  }
+  
 }); 
