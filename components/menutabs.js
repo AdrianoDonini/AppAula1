@@ -3,7 +3,8 @@ import { View, StyleSheet, Text} from 'react-native';
 import { NavigationContainer } from '@react-navigation/native'; 
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Card, Button} from 'react-native-paper';
-import Icon from 'react-native-vector-icons/FontAwesome5'; 
+import Icon from 'react-native-vector-icons/FontAwesome5';
+import ProductsManager from './productsmanager'; 
  
 function HomeScreen() { 
     return ( 
@@ -74,12 +75,9 @@ function ListScreen() {
     ); 
 } 
  
-function ProdutosScreen() { 
-    return ( 
-        <View style={styles.container}> 
-            <Text></Text> 
-        </View> 
-    ); 
+function ProdutsScreen() { 
+    return <ProductsManager/>
+     
  
 } 
  
@@ -132,7 +130,7 @@ export default function Menu() {
                 <Tab.Screen name="Listar" component={ListScreen} /> 
                 <Tab.Screen 
                     name="Mangas" 
-                    component={ProdutosScreen} 
+                    component={ProdutsScreen} 
                 /> 
                 <Tab.Screen name="Ler API" component={NotificationsScreen} /> 
                 </Tab.Navigator> 
@@ -169,6 +167,7 @@ const styles = StyleSheet.create({
         alignItems:"center",
         paddingTop: 10,
         paddingBottom: 10,
+        margin: 10,
       },
       imgCards:{
         width: '100%',
