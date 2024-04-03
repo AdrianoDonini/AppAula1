@@ -13,19 +13,65 @@ export default function ProductsManager() {
     const [editora, setEditora] = useState("");
     const [genero, setGenero] = useState("");
     const [preco, setPreco] = useState("");
+    const [products, setProducts] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [key , setKey] = useState("");
+    const inputRef = useRef(null);
 
     
-    function cadastrarManga(){
+    /*function cadastrarManga(){
         firebase.database().ref('/manga').push({
-            idProtudo:{
                 nome:name,
                 autor:autor,
                 editora:editora,
                 genero:genero,
                 preco:preco,
-            },
-        }).then(()=> console.log("Salvado Com Sucesso!")).catch(error => console.log("Error:",error));
-    }
+        }).then(()=> console.log("Salvo Com Sucesso!")).catch(error => console.log("Error:",error));
+    }*/
+    //método para inserir ou alterar os dados produtos 
+
+  async function insertUpdate() { 
+
+    //editar dados 
+
+    if (name !== '' & autor !== '' & editora !== '' &  
+        genero !== '' & preco !== '' & key !== '') { 
+        firebase.database().ref('/manga').child(key).update({
+            name: name, 
+            autor: autor, 
+            editora: editora, 
+            genero:genero,
+            preco:preco, 
+        }) 
+        //para o teclado do celular fixo abaixo do formulário (não flutuante) 
+        Keyboard.dismiss(); 
+        alert('Produto Alterado!'); 
+        clearData(); 
+        setKey(''); 
+        return; 
+    } 
+    //cadastrar dados - insert 
+    let prods = await firebase.database().ref('manga'); 
+    let keyprod = prods.push().key; //cadastar os dados
+
+    prods.child(keyprod).set({ 
+        name: name, 
+        autor: autor, 
+        editora: editora, 
+        genero:genero,
+        preco:preco,
+    }); 
+    alert('Produto Inserido!'); 
+    clearData(); 
+} 
+
+function clearData() { 
+    setName(''); 
+    setAutor(''); 
+    setEditora(''); 
+    setGenero('');
+    setPreco(''); 
+} 
     return (
         <View style={styles.container}>
 
@@ -71,7 +117,7 @@ export default function ProductsManager() {
                 value={preco}
             />
             <Separator />
-            <TouchableOpacity onPress={cadastrarManga} style={styles.button} activeOpacity={0.5}>
+            <TouchableOpacity onPress={insertUpdate} style={styles.button} activeOpacity={0.5}>
                 <Text style={styles.buttonTextStyle}>Cadastrar</Text>
             </TouchableOpacity>
         </View>

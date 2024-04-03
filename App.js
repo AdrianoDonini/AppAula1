@@ -5,7 +5,7 @@ import ProductsManager from './components/productsmanager';
 
 
 export default function App() { 
-  return <ProductsManager/>
+  return <MenuTabs/>
   /*const [user, setUser] = useState(null); 
   //verifica se existe um usuário logado, se não houver chama a 
 
