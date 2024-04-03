@@ -2,16 +2,30 @@ import React, { useState, useEffect, useRef } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Keyboard, FlatList, ActivityIndicator } from 'react-native';
 import { TextInput } from 'react-native-paper';
 import firebase from '../services/connerctionFirebase';
+import database from '@react-native-firebase/database';
 
 const Separator = () => {
     return <View style={StyleSheet.separator} />
 }
 export default function ProductsManager() {
     const [name, setName] = useState("");
-    const [brand, setBrand] = useState("");
-    const [type, setType] = useState("");
-    const [price, setPrice] = useState("");
+    const [autor, setAutor] = useState("");
+    const [editora, setEditora] = useState("");
+    const [genero, setGenero] = useState("");
+    const [preco, setPreco] = useState("");
 
+    
+    function cadastrarManga(){
+        firebase.database().ref('/manga').push({
+            idProtudo:{
+                nome:name,
+                autor:autor,
+                editora:editora,
+                genero:genero,
+                preco:preco,
+            },
+        }).then(()=> console.log("Salvado Com Sucesso!")).catch(error => console.log("Error:",error));
+    }
     return (
         <View style={styles.container}>
 
@@ -28,24 +42,24 @@ export default function ProductsManager() {
                 placeholder="Autor"
                 left={<TextInput.Icon icon="account" />}
                 style={styles.input}
-                onChangeText={(texto) => setBrand(texto)}
-                value={brand}
+                onChangeText={(texto) => setAutor(texto)}
+                value={autor}
             />
             <Separator />
             <TextInput
                 placeholder="Editora"
                 left={<TextInput.Icon icon="book-open-page-variant" />}
                 style={styles.input}
-                onChangeText={(texto) => setBrand(texto)}
-                value={brand}
+                onChangeText={(texto) => setEditora(texto)}
+                value={editora}
             />
             <Separator />
             <TextInput
                 placeholder="Genero"
                 left={<TextInput.Icon icon="ab-testing" />}
                 style={styles.input}
-                onChangeText={(texto) => setType(texto)}
-                value={type}
+                onChangeText={(texto) => setGenero(texto)}
+                value={genero}
             />
 
             <Separator />
@@ -53,11 +67,11 @@ export default function ProductsManager() {
                 placeholder="Preço"
                 left={<TextInput.Icon icon="cash" />}
                 style={styles.input}
-                onChangeText={(texto) => setPrice(texto)}
-                value={price}
+                onChangeText={(texto) => setPreco(texto)}
+                value={preco}
             />
             <Separator />
-            <TouchableOpacity onPress={""} style={styles.button} activeOpacity={0.5}>
+            <TouchableOpacity onPress={cadastrarManga} style={styles.button} activeOpacity={0.5}>
                 <Text style={styles.buttonTextStyle}>Cadastrar</Text>
             </TouchableOpacity>
         </View>
