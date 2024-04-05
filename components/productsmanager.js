@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Keyboard, FlatList, ActivityIndicator } from 'react-native';
 import { TextInput } from 'react-native-paper';
 import firebase from '../services/connerctionFirebase';
-import database from '@react-native-firebase/database';
+import ListProd from '../components/productslist';
 
 const Separator = () => {
     return <View style={StyleSheet.separator} />
@@ -29,6 +29,29 @@ export default function ProductsManager() {
         }).then(()=> console.log("Salvo Com Sucesso!")).catch(error => console.log("Error:",error));
     }*/
     //método para inserir ou alterar os dados produtos 
+    useEffect(() => {
+ 
+        async function search() {
+          await firebase.database().ref('/manga').on('value', (snapshot) => {
+            setProducts([]);
+            snapshot.forEach((chilItem) => {
+              let data = {
+                //de acordo com a chave de cada item busca os valores
+                //cadastrados na relação e atribui nos dados
+                key: chilItem.key,
+                name: chilItem.val().name,
+                autor: chilItem.val().autor,
+                editora: chilItem.val().editora,
+                genero: chilItem.val().genero,
+                preco: chilItem.val().preco,
+              };
+              setProducts(oldArray => [...oldArray, data].reverse());
+            })
+            setLoading(false);
+          })
+        }
+        search();
+      }, []);
 
   async function insertUpdate() { 
 
@@ -72,6 +95,26 @@ function clearData() {
     setGenero('');
     setPreco(''); 
 } 
+      //função para excluir um item 
+function handleDelete(key) {
+    firebase.database().ref('/manga').child(key).remove()
+      .then(() => {
+        //todos os itens que forem diferentes daquele que foi deletado
+        //serão atribuidos no array
+        const findProducts = products.filter(item => item.key !== key)
+        setProducts(findProducts)
+      })
+  }
+ 
+  //função para editar 
+  function handleEdit(data) {
+      setKey(data.key),
+      setName(data.name),
+      setAutor(data.autor),
+      setEditora(data.editora),
+      setGenero(data.genero),
+      setPreco(data.preco)
+  }
     return (
         <View style={styles.container}>
 
@@ -120,7 +163,22 @@ function clearData() {
             <TouchableOpacity onPress={insertUpdate} style={styles.button} activeOpacity={0.5}>
                 <Text style={styles.buttonTextStyle}>Cadastrar</Text>
             </TouchableOpacity>
-        </View>
+            <View>
+            <Text style={styles.listar}>Listagem de Produtos</Text>
+            </View>
+                     {loading ?
+                            (<ActivityIndicator color="#121212" size={45} />) :
+                            (<FlatList
+                                    keyExtractor={item => item.key}
+                                    data={products}
+                                    renderItem={({ item }) => (
+                                            <ListProd data={item} deleteItem={handleDelete}
+                                            editItem={handleEdit} />
+                                    )}
+                                />
+                            )
+                        }
+                    </View>
     )
 }
 

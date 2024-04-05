@@ -5,6 +5,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Card, Button} from 'react-native-paper';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import ProductsManager from './productsmanager'; 
+
  
 function HomeScreen() { 
     return ( 
@@ -82,11 +83,7 @@ function ProdutsScreen() {
 } 
  
 function NotificationsScreen() { 
-    return ( 
-        <View style={styles.container}> 
-            <Text></Text> 
-        </View> 
-    ); 
+    return 
 } 
  
 const Tab = createBottomTabNavigator(); 
