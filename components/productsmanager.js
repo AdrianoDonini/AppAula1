@@ -3,6 +3,8 @@ import { View, Text, StyleSheet, TouchableOpacity, Keyboard, FlatList, ActivityI
 import { TextInput } from 'react-native-paper';
 import firebase from '../services/connerctionFirebase';
 import ListProd from '../components/productslist';
+import { ConfirmDialog } from 'react-native-simple-dialogs';
+
 
 const Separator = () => {
     return <View style={StyleSheet.separator} />
@@ -17,6 +19,15 @@ export default function ProductsManager() {
     const [loading, setLoading] = useState(true);
     const [key , setKey] = useState("");
     const inputRef = useRef(null);
+    const [visible, setVisible] = useState(false);
+
+
+  
+    const handleCancel = () => {
+      setVisible(false);
+    };
+  
+
 
     
     /*function cadastrarManga(){
@@ -95,6 +106,7 @@ function clearData() {
     setGenero('');
     setPreco(''); 
 } 
+
       //função para excluir um item 
 function handleDelete(key) {
     firebase.database().ref('/manga').child(key).remove()
@@ -105,7 +117,24 @@ function handleDelete(key) {
         setProducts(findProducts)
       })
   }
- 
+function handleDialog(key){
+    return (
+        <ConfirmDialog
+            title="Confirm Dialog"
+            message="Are you sure about that?"
+            visible={this.state.dialogVisible}
+            onTouchOutside={() => this.setState({dialogVisible: false})}
+            positiveButton={{
+                title: "YES",
+                onPress: handleDelete(key)
+            }}
+            negativeButton={{
+                title: "NO",
+                onPress: handleCancel
+            }}
+        />
+    );
+        }
   //função para editar 
   function handleEdit(data) {
       setKey(data.key),
@@ -172,7 +201,7 @@ function handleDelete(key) {
                                     keyExtractor={item => item.key}
                                     data={products}
                                     renderItem={({ item }) => (
-                                            <ListProd data={item} deleteItem={handleDelete}
+                                            <ListProd data={item} deleteItem={handleDialog}
                                             editItem={handleEdit} />
                                     )}
                                 />
@@ -183,6 +212,12 @@ function handleDelete(key) {
 }
 
 const styles = StyleSheet.create({
+    container1: {
+        flex: 1,
+        backgroundColor: "#fff",
+        alignItems: "center",
+        justifyContent: "center",
+      },
     container: {
         flex: 1,
         margin: 10,
