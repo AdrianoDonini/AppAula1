@@ -1,21 +1,21 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Keyboard, FlatList, ActivityIndicator, Button} from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Keyboard, FlatList, ActivityIndicator, Button, ImageBackground} from 'react-native';
 import { TextInput } from 'react-native-paper';
 import firebase from '../services/connerctionFirebase';
-import ListProd from '../components/productslist';
+import ShopsList from '../components/shopsList';
 import { Dialog } from 'react-native-simple-dialogs';
 import Teste from './test';
 
 const Separator = () => {
     return <View style={StyleSheet.separator} />
 }
-export default function ProductsManager() {
-    const [name, setName] = useState("");
-    const [autor, setAutor] = useState("");
-    const [editora, setEditora] = useState("");
-    const [genero, setGenero] = useState("");
-    const [preco, setPreco] = useState("");
-    const [products, setProducts] = useState([]);
+export default function ShopsManager() {
+    const [cidadeLoja, setcidadeLoja] = useState("");
+    const [endereco, setendereco] = useState("");
+    const [cep, setcep] = useState("");
+    const [tamanho, settamanho] = useState("");
+    const [satisfacao, setsatisfacao] = useState("");
+    const [shops, setshops] = useState([]);
     const [loading, setLoading] = useState(true);
     const [key , setKey] = useState("");
     const inputRef = useRef(null);
@@ -27,20 +27,20 @@ export default function ProductsManager() {
     useEffect(() => {
  
         async function search() {
-          await firebase.database().ref('/manga').on('value', (snapshot) => {
-            setProducts([]);
+          await firebase.database().ref('shops').on('value', (snapshot) => {
+            setshops([]);
             snapshot.forEach((chilItem) => {
               let data = {
                 //de acordo com a chave de cada item busca os valores
                 //cadastrados na relação e atribui nos dados
                 key: chilItem.key,
-                name: chilItem.val().name,
-                autor: chilItem.val().autor,
-                editora: chilItem.val().editora,
-                genero: chilItem.val().genero,
-                preco: chilItem.val().preco,
+                cidadeLoja: chilItem.val().cidadeLoja,
+                endereco: chilItem.val().endereco,
+                cep: chilItem.val().cep,
+                tamanho: chilItem.val().tamanho,
+                satisfacao: chilItem.val().satisfacao,
               };
-              setProducts(oldArray => [...oldArray, data].reverse());
+              setshops(oldArray => [...oldArray, data].reverse());
             })
             setLoading(false);
           })
@@ -52,14 +52,14 @@ export default function ProductsManager() {
 
     //editar dados 
 
-    if (name !== '' & autor !== '' & editora !== '' &  
-        genero !== '' & preco !== '' & key !== '') { 
-        firebase.database().ref('/manga').child(key).update({
-            name: name, 
-            autor: autor, 
-            editora: editora, 
-            genero:genero,
-            preco:preco, 
+    if (cidadeLoja !== '' & endereco !== '' & cep !== '' &  
+        tamanho !== '' & satisfacao !== '' & key !== '') { 
+        firebase.database().ref('shops').child(key).update({
+            cidadeLoja: cidadeLoja, 
+            endereco: endereco, 
+            cep: cep, 
+            tamanho:tamanho,
+            satisfacao:satisfacao, 
         }) 
         //para o teclado do celular fixo abaixo do formulário (não flutuante) 
         Keyboard.dismiss(); 
@@ -69,26 +69,26 @@ export default function ProductsManager() {
         return; 
     } 
     //cadastrar dados - insert 
-    let prods = await firebase.database().ref('manga'); 
+    let prods = await firebase.database().ref('shops'); 
     let keyprod = prods.push().key; //cadastar os dados
 
     prods.child(keyprod).set({ 
-        name: name, 
-        autor: autor, 
-        editora: editora, 
-        genero:genero,
-        preco:preco,
+        cidadeLoja: cidadeLoja, 
+        endereco: endereco, 
+        cep: cep, 
+        tamanho:tamanho,
+        satisfacao:satisfacao,
     }); 
     alert('Produto Inserido!'); 
     clearData(); 
 } 
 
 function clearData() { 
-    setName(''); 
-    setAutor(''); 
-    setEditora(''); 
-    setGenero('');
-    setPreco(''); 
+    setcidadeLoja(''); 
+    setendereco(''); 
+    setcep(''); 
+    settamanho('');
+    setsatisfacao(''); 
 } 
 // função para setar o id que vai ser deletado e mostrar o dialogo de confirmação
 const handleDeleteItem = (key) => {
@@ -97,12 +97,12 @@ const handleDeleteItem = (key) => {
   };
       //função para excluir um item 
 function handleDelete(keytoDelet) {
-    firebase.database().ref('/manga').child(keytoDelet).remove()
+    firebase.database().ref('shops').child(keytoDelet).remove()
       .then(() => {
         //todos os itens que forem diferentes daquele que foi deletado
         //serão atribuidos no array
-        const findProducts = products.filter(item => item.key !== keytoDelet)
-        setProducts(findProducts)
+        const findshops = shops.filter(item => item.key !== keytoDelet)
+        setshops(findshops)
       })
       setShowDialog(false);
       setKeytoDelet(""); 
@@ -111,75 +111,81 @@ function handleDelete(keytoDelet) {
   //função para editar 
   function handleEdit(data) {
       setKey(data.key),
-      setName(data.name),
-      setAutor(data.autor),
-      setEditora(data.editora),
-      setGenero(data.genero),
-      setPreco(data.preco)
+      setcidadeLoja(data.cidadeLoja),
+      setendereco(data.endereco),
+      setcep(data.cep),
+      settamanho(data.tamanho),
+      setsatisfacao(data.satisfacao)
   }
     return (
-        <View style={styles.container}>
+        <ImageBackground       
+            source={require('../assets/apresentacao1.jpg')} // Altere para o caminho da sua imagem
+            style={styles.container}
+        >
 
             <TextInput
-                placeholder="Mangá"
+                placeholder="Cidade da Loja:"
                 left={<TextInput.Icon icon="book-open" />}
                 maxLength={40}
                 style={styles.input}
-                onChangeText={(texto) => setName(texto)}
-                value={name}
+                onChangeText={(texto) => setcidadeLoja(texto)}
+                value={cidadeLoja}
             />
             <Separator />
             <TextInput
-                placeholder="Autor"
+                placeholder="Endereco:"
                 left={<TextInput.Icon icon="account" />}
                 style={styles.input}
-                onChangeText={(texto) => setAutor(texto)}
-                value={autor}
+                onChangeText={(texto) => setendereco(texto)}
+                value={endereco}
             />
             <Separator />
             <TextInput
-                placeholder="Editora"
+                placeholder="CEP:"
                 left={<TextInput.Icon icon="book-open-page-variant" />}
                 style={styles.input}
-                onChangeText={(texto) => setEditora(texto)}
-                value={editora}
+                onChangeText={(texto) => setcep(texto)}
+                value={cep}
             />
             <Separator />
             <TextInput
-                placeholder="Genero"
+                placeholder="Tamanho da Loja:"
                 left={<TextInput.Icon icon="ab-testing" />}
                 style={styles.input}
-                onChangeText={(texto) => setGenero(texto)}
-                value={genero}
+                onChangeText={(texto) => settamanho(texto)}
+                value={tamanho}
             />
 
             <Separator />
             <TextInput
-                placeholder="Preço"
+                placeholder="Satisfação dos clientes:"
                 left={<TextInput.Icon icon="cash" />}
                 style={styles.input}
-                onChangeText={(texto) => setPreco(texto)}
-                value={preco}
+                onChangeText={(texto) => setsatisfacao(texto)}
+                value={satisfacao}
             />
             <Separator />
             <TouchableOpacity onPress={insertUpdate} style={styles.button} activeOpacity={0.5}>
                 <Text style={styles.buttonTextStyle}>Cadastrar</Text>
             </TouchableOpacity>
             <View>
-            <Text style={styles.listar}>Listagem de Produtos</Text>
+            <Text style={styles.listar}>Listagem de Lojas</Text>
             </View>
-                     {loading ?
+            <View style={styles.lista}>
+            <View style={styles.lista}>{loading ?
                             (<ActivityIndicator color="#121212" size={45} />) :
                             (<FlatList
                                     keyExtractor={item => item.key}
-                                    data={products}
+                                    data={shops}
                                     renderItem={({ item }) => (
-                                            <ListProd data={item} deleteItem={() =>  handleDeleteItem(item.key)}
+                                            <ShopsList data={item} deleteItem={() =>  handleDeleteItem(item.key)}
                                             editItem={handleEdit} />
                                     )}
                                 />
                             )
-                        }
+                        }</View>
+            </View>
+
             <Dialog
                 visible={showDialog}
                 onTouchOutside={() => setShowDialog(false)}
@@ -195,7 +201,7 @@ function handleDelete(keytoDelet) {
                     </View>
                 </View>
             </Dialog>
-        </View>
+        </ImageBackground>
     )
 }
 
@@ -208,6 +214,16 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         width:100,
         height:100,
+        backgroundImag: 'url("../assets/apresentacao1.jpg")',
+      },
+      lista:{
+        flex: 1,
+        width:"90%",
+        height:"auto",
+        backgroundColor:"gray",
+        flexDirection:"column",
+        alignItems:"center",
+        
       },
       button1: {
         padding: 10,
@@ -218,9 +234,11 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         margin: 10,
+        flexDirection:"column",
+        alignItems:"center",
     },
     input: {
-        borderWidth: 1,
+        width: "95%",
         borderColor: '#121212',
         height: 40,
         fontSize: 13,
@@ -260,6 +278,7 @@ const styles = StyleSheet.create({
     },
     listar: {
         fontSize: 20,
-        textAlign: 'center'
+        textAlign: 'center',
+        color:"white",
     }
 }); 

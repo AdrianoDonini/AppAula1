@@ -2,14 +2,14 @@ import React from 'react';
 import {View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
  
-export default function PrductsList({ data, deleteItem, editItem }){
+export default function ShopsList({ data, deleteItem, editItem }){
   return(
 <View style={styles.container}>
-    <Text style={styles.text}>Nome: {data.nome}</Text>
-    <Text style={styles.text}>Autor {data.autor}</Text>
-    <Text style={styles.text}>Editora: {data.editora}</Text>
-    <Text style={styles.text}>Genero: {data.genero}</Text>
-    <Text style={styles.text}>Preço(R$): {data.preco}</Text>
+    <Text style={styles.text}>Cidade Da Loja: {data.cidadeLoja}</Text>
+    <Text style={styles.text}>Endereco: {data.endereco}</Text>
+    <Text style={styles.text}>CEP: {data.cep}</Text>
+    <Text style={styles.text}>Tamanho da loja(1 - 5): {data.tamanho}</Text>
+    <Text style={styles.text}>Satisfação dos clientes(1 - 5): {data.satisfacao}</Text>
     
     <View style={styles.item}>
         <TouchableOpacity onPress={()=> deleteItem(data.key)}>
@@ -32,6 +32,7 @@ const styles = StyleSheet.create({
     marginBottom: 5,
     padding: 10,
     backgroundColor: '#FAFAD2',
+    width:"90%",
   },
   text:{
     color:'black',

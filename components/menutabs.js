@@ -5,6 +5,8 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Card, Button} from 'react-native-paper';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import ProductsManager from './productsmanager'; 
+import Teste from './test';
+import ShopsManager from './shopsManager';
 
  
 function HomeScreen() { 
@@ -68,12 +70,8 @@ function HomeScreen() {
     ); 
 } 
  
-function ListScreen() { 
-    return ( 
-        <View style={styles.container}> 
-            <Text></Text> 
-        </View> 
-    ); 
+function Lojas() { 
+    return <ShopsManager/>
 } 
  
 function ProdutsScreen() { 
@@ -83,7 +81,7 @@ function ProdutsScreen() {
 } 
  
 function NotificationsScreen() { 
-    return 
+    return <Teste/>
 } 
  
 const Tab = createBottomTabNavigator(); 
@@ -100,8 +98,8 @@ export default function Menu() {
                             case 'Home': 
                                 iconName = 'home'; 
                                 break; 
-                            case 'Listar': 
-                                iconName = 'list'; 
+                            case 'Lojas': 
+                                iconName = 'shopping-bag'; 
                                 break; 
                             case 'Mangas': 
                                 iconName = 'book-open'; 
@@ -124,12 +122,12 @@ export default function Menu() {
                 }} 
             > 
                 <Tab.Screen name="Home" component={HomeScreen} /> 
-                <Tab.Screen name="Listar" component={ListScreen} /> 
+                <Tab.Screen name="Lojas" component={Lojas} /> 
                 <Tab.Screen 
                     name="Mangas" 
                     component={ProdutsScreen} 
                 /> 
-                <Tab.Screen name="Ler API" component={NotificationsScreen} /> 
+                <Tab.Screen name="Notificações" component={NotificationsScreen} /> 
                 </Tab.Navigator> 
         </NavigationContainer> 
     ); 
@@ -142,6 +140,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         backgroundColor:"#eee", 
     }, 
+
     iconTabRound: { 
         width: 60, 
         height: 90, 
@@ -172,6 +171,9 @@ const styles = StyleSheet.create({
       },
     menuStyle:{
         backgroundColor:"#bbb342",
+        flex:1,
+        flexDirection:"column",
+        justifyContent:"center",
     },
     styleButtonComprar:{
         width: 80,
