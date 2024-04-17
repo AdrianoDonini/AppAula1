@@ -33,6 +33,8 @@ const styles = StyleSheet.create({
     width:"80vw",
     padding: 10,
     backgroundColor: '#fff',
+    marginRight: 5,
+    borderRadius:8,
   },
   text:{
     color:'black',

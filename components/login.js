@@ -9,6 +9,11 @@ export default function Login({changeStatus}) {
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('')
 
+  const validateEmail = (email) => {
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return regex.test(email);
+  };
+
   function handleLogin() {
 
     if (type === 'login') {
@@ -19,20 +24,34 @@ export default function Login({changeStatus}) {
         })
         .catch((err) => {
           console.log(err);
-          alert('Email ou senha não cadastrados!');
+          alert('Email e/ou senha inválidos!');
           return;
         })
     } else {
-      // Aqui cadastramos o usuario  
-      const user = firebase.auth().createUserWithEmailAndPassword(email, password)
+      if(email == "" || email == null){
+        alert("E-mail não informado");
+        return;
+      }
+      if(validateEmail() == false){
+        alert("E-mail invalido!");
+      }
+      if(password == "" || password == null){
+        alert("Senha não informada!");
+        return;
+      }
+      if((email != "" || email != null) && (password != "" || password != null) && validateEmail){
+        const user = firebase.auth().createUserWithEmailAndPassword(email, password)
         .then((user) => {
           changeStatus(user.user.uid)
         })
         .catch((err) => {
-          console.log(err);
-          alert('Erro ao Cadastrar!');
+          console.log("LOG:"+err);
+          alert(err);
           return;
         })
+      }
+      // Aqui cadastramos o usuario  
+
     }
   }
 

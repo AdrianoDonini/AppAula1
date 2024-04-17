@@ -31,9 +31,11 @@ const styles = StyleSheet.create({
     marginTop: 10,
     padding: 10,
     backgroundColor: 'white',
-    width:"90%",
+    width:"80vw",
     marginLeft:"3vw",
     borderRadius:10,
+    height: "auto",
+    marginRight:5,
   },
   text:{
     color:'black',
