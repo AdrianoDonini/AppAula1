@@ -26,8 +26,8 @@ function HomeScreen() {
                      <Button 
                     textColor='#fff'                    
                     style={styles.styleButtonEspecificacaoes}
-                    title="Comprar"
-                    onPress={() => Alert.alert('Função em desenvolvimento!')}>Comprar</Button>
+                    title="Especificações"
+                    onPress={() => Alert.alert('Função em desenvolvimento!')}>Especificações</Button>
                 </Card.Content>
             </Card> 
                         <Card style={styles.Cards}>
@@ -44,8 +44,8 @@ function HomeScreen() {
                      <Button 
                     textColor='#fff'                    
                     style={styles.styleButtonEspecificacaoes}
-                    title="Comprar"
-                    onPress={() => Alert.alert('Função em desenvolvimento!')}>Comprar</Button>
+                    title="Especificações"
+                    onPress={() => Alert.alert('Função em desenvolvimento!')}>Especificações</Button>
                 </Card.Content>
             </Card> 
             <Card style={styles.Cards}>
@@ -62,8 +62,8 @@ function HomeScreen() {
                     <Button 
                     textColor='#fff'                    
                     style={styles.styleButtonEspecificacaoes}
-                    title="Comprar"
-                    onPress={() => Alert.alert('Função em desenvolvimento!')}>Comprar</Button>
+                    title="Especificações"
+                    onPress={() => Alert.alert('Função em desenvolvimento!')}>Especificações</Button>
                 </Card.Content>
         </Card> 
         </View> 
@@ -88,10 +88,11 @@ const Tab = createBottomTabNavigator();
  
 export default function Menu() { 
     return ( 
-        <NavigationContainer style={styles.menuStyle}> 
-            <Tab.Navigator
+        <NavigationContainer > 
+            <Tab.Navigator style={styles.menuStyle}
                 screenOptions={({ route }) => ({ 
                     tabBarIcon: ({ color, size }) => { 
+                        
                         let iconName; 
  
                         switch (route.name) { 
@@ -117,11 +118,12 @@ export default function Menu() {
                 })} 
                 tabBarOptions={{ 
                     activeTintColor: '#777', 
-                    inactiveTintColor: '#9c9752', 
+                    inactiveTintColor: '#3838ed', 
                     showLabel: true, 
                 }} 
+                
             > 
-                <Tab.Screen name="Home" component={HomeScreen} /> 
+                <Tab.Screen name="Home" component={HomeScreen} style={styles.tabScrew}/> 
                 <Tab.Screen name="Lojas" component={Lojas} /> 
                 <Tab.Screen 
                     name="Mangas" 
@@ -134,11 +136,14 @@ export default function Menu() {
 } 
  
 const styles = StyleSheet.create({ 
+    tabScrew:{
+        backgroundColor:"blue",
+    },
     container: { 
         flex: 1, 
 
         alignItems: 'center',
-        backgroundColor:"#eee", 
+        backgroundColor:"#bbb", 
     }, 
 
     iconTabRound: { 
@@ -170,10 +175,8 @@ const styles = StyleSheet.create({
         height: 'auto',
       },
     menuStyle:{
-        backgroundColor:"#bbb342",
-        flex:1,
-        flexDirection:"column",
-        justifyContent:"center",
+        backgroundColor:"bbb342",
+        color:'read',
     },
     styleButtonComprar:{
         width: 80,

@@ -166,20 +166,25 @@ function handleDelete(keytoDelet) {
                 <Text style={styles.buttonTextStyle}>Cadastrar</Text>
             </TouchableOpacity>
             <View>
-            <Text style={styles.listar}>Listagem de Produtos</Text>
+            <Text style={styles.lista}>Listagem de Produtos</Text>
             </View>
-                     {loading ?
-                            (<ActivityIndicator color="#121212" size={45} />) :
-                            (<FlatList
-                                    keyExtractor={item => item.key}
-                                    data={products}
-                                    renderItem={({ item }) => (
-                                            <ListProd data={item} deleteItem={() =>  handleDeleteItem(item.key)}
-                                            editItem={handleEdit} />
-                                    )}
-                                />
-                            )
-                        }
+            <View style={styles.listar}>
+                <View style={styles.flatList}>
+                        {loading ?
+                                (<ActivityIndicator color="#121212" size={45} />) :
+                                (<FlatList
+                                        keyExtractor={item => item.key}
+                                        data={products}
+                                        renderItem={({ item }) => (
+                                                <ListProd data={item} deleteItem={() =>  handleDeleteItem(item.key)}
+                                                editItem={handleEdit} />
+                                        )}
+                                    />
+                                )
+                            }
+                </View>
+            </View>
+            
             <Dialog
                 visible={showDialog}
                 onTouchOutside={() => setShowDialog(false)}
@@ -187,12 +192,14 @@ function handleDelete(keytoDelet) {
                 animationType="fade"
                 contentStyle={{ alignItems: 'center', justifyContent: 'center' }}
                 >
-                <View>
-                    <Text>Deseja realmente excluir este item?</Text>
-                    <View style={{ flexDirection: 'row', justifyContent: 'space-around', marginTop: 20 }}>
-                    <Button title="Cancelar" onPress={() => setShowDialog(false)} />
-                    <Button title="Confirmar" onPress={() => {handleDelete(keytoDelet)}} />
-                    </View>
+                
+                    <View>
+                        <Text>Deseja realmente excluir este item?</Text>
+                        <View style={{ flexDirection: 'row', justifyContent: 'space-around', marginTop: 20 }}>
+                        <Button title="Cancelar" onPress={() => setShowDialog(false)} />
+                        <Button title="Confirmar" onPress={() => {handleDelete(keytoDelet)}} />
+                        </View>
+                    
                 </View>
             </Dialog>
         </View>
@@ -200,15 +207,7 @@ function handleDelete(keytoDelet) {
 }
 
 const styles = StyleSheet.create({
-    container1: {
-        position:'absolute',
-        zIndex: 10,
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        width:100,
-        height:100,
-      },
+
       button1: {
         padding: 10,
         backgroundColor: '#2196F3',
@@ -217,14 +216,17 @@ const styles = StyleSheet.create({
       },
     container: {
         flex: 1,
-        margin: 10,
+        margin: 0,
+        backgroundColor:"#bbb",
     },
     input: {
         borderWidth: 1,
         borderColor: '#121212',
         height: 40,
         fontSize: 13,
-        borderRadius: 8
+        borderRadius: 8,
+        margin: 5,
+        backgroundColor:"white",
     },
     separator: {
         marginVertical: 5,
@@ -232,12 +234,13 @@ const styles = StyleSheet.create({
     button: {
         flexDirection: 'row',
         alignItems: 'center',
-        backgroundColor: '#3ea6f2',
+        backgroundColor: '#3838ed',
         borderWidth: 0.5,
         borderColor: '#fff',
         height: 40,
         borderRadius: 5,
-        margin: 5,
+        marginHorizontal: 10,
+        marginVertical: 5,
     },
     buttonImageIconStyle: {
         padding: 10,
@@ -258,8 +261,25 @@ const styles = StyleSheet.create({
         width: 1,
         height: 20,
     },
-    listar: {
+    lista: {
         fontSize: 20,
-        textAlign: 'center'
-    }
+        textAlign: 'center',
+        margin:10,
+        
+    },
+    listar:{
+        width:"100%",
+        flex:1,
+        flexDirection:"column",
+        alignItems:"center",
+    },
+    flatList:{
+        flex: 1,
+        width:"90%",
+        height:"auto",
+        backgroundColor:"gray",
+        alignItems:"center",
+        justifyContent:"center",
+        borderRadius: 10,
+      },
 }); 

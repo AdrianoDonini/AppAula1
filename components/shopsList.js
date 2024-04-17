@@ -29,10 +29,11 @@ const styles = StyleSheet.create({
   container:{
     flex:1,
     marginTop: 10,
-    marginBottom: 5,
     padding: 10,
-    backgroundColor: '#FAFAD2',
+    backgroundColor: 'white',
     width:"90%",
+    marginLeft:"3vw",
+    borderRadius:10,
   },
   text:{
     color:'black',

@@ -118,10 +118,7 @@ function handleDelete(keytoDelet) {
       setsatisfacao(data.satisfacao)
   }
     return (
-        <ImageBackground       
-            source={require('../assets/apresentacao1.jpg')} // Altere para o caminho da sua imagem
-            style={styles.container}
-        >
+        <View style={styles.container}>
 
             <TextInput
                 placeholder="Cidade da Loja:"
@@ -172,7 +169,7 @@ function handleDelete(keytoDelet) {
             <Text style={styles.listar}>Listagem de Lojas</Text>
             </View>
             <View style={styles.lista}>
-            <View style={styles.lista}>{loading ?
+            <View style={styles.flatList}>{loading ?
                             (<ActivityIndicator color="#121212" size={45} />) :
                             (<FlatList
                                     keyExtractor={item => item.key}
@@ -201,7 +198,7 @@ function handleDelete(keytoDelet) {
                     </View>
                 </View>
             </Dialog>
-        </ImageBackground>
+        </View>
     )
 }
 
@@ -221,28 +218,33 @@ const styles = StyleSheet.create({
         width:"90%",
         height:"auto",
         backgroundColor:"gray",
-        flexDirection:"column",
         alignItems:"center",
-        
+        justifyContent:"center",
+        borderRadius: 10,
       },
       button1: {
         padding: 10,
         backgroundColor: '#2196F3',
         color: 'white',
         borderRadius: 5,
+        
       },
     container: {
         flex: 1,
-        margin: 10,
+        margin: 0,
         flexDirection:"column",
         alignItems:"center",
+        width:"100%",
+        backgroundColor:"#bbb",
     },
     input: {
         width: "95%",
         borderColor: '#121212',
         height: 40,
         fontSize: 13,
-        borderRadius: 8
+        borderRadius: 8,
+        margin: 5,
+        backgroundColor: "white",
     },
     separator: {
         marginVertical: 5,
@@ -250,12 +252,13 @@ const styles = StyleSheet.create({
     button: {
         flexDirection: 'row',
         alignItems: 'center',
-        backgroundColor: '#3ea6f2',
+        backgroundColor: '#3838ed',
         borderWidth: 0.5,
         borderColor: '#fff',
         height: 40,
         borderRadius: 5,
         margin: 5,
+        width:"90%",
     },
     buttonImageIconStyle: {
         padding: 10,
@@ -279,6 +282,6 @@ const styles = StyleSheet.create({
     listar: {
         fontSize: 20,
         textAlign: 'center',
-        color:"white",
     }
+    
 }); 

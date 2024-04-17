@@ -1,5 +1,5 @@
 import React, { useState, } from 'react';
-import { View, StyleSheet, Image, number, SafeAreaView, TouchableOpacity } from "react-native";
+import { View, StyleSheet, Image, number, SafeAreaView, TouchableOpacity, ImageBackground } from "react-native";
 import { Card, TextInput, Text, } from 'react-native-paper';
 import firebase from '../services/connerctionFirebase';
 
@@ -37,8 +37,11 @@ export default function Login({changeStatus}) {
   }
 
   return (
-    <View style={styles.container}>
-      <SafeAreaView style={styles}>
+    <ImageBackground 
+    source={require('../assets/apresentacao1.jpg')}
+    style={styles.container}>
+      
+      <SafeAreaView style={styles.mainContent}>
       <Image style={styles.logo} source={require('../assets/user-account-login-icon.png')} />
       <Card style={styles.styleCard}> 
       <Card.Title title="" subtitle="" />
@@ -67,7 +70,7 @@ export default function Login({changeStatus}) {
         <Card.Content style={styles.mainContent}>
             <TouchableOpacity
               style={[styles.handleLogin,
-              { backgroundColor: type === 'login' ? '#4682B4' : '#141414' }]}
+              { backgroundColor: type === 'login' ? '#3838ed' : '#141414' }]}
               onPress={handleLogin}
             >
                 <Text style={styles.loginText}>
@@ -75,13 +78,13 @@ export default function Login({changeStatus}) {
                 </Text>
             </TouchableOpacity>
             <TouchableOpacity onPress={() => setType(type => type === 'login' ? 'cadastrar' : 'login')} >
-              <Text style={{ textAlign: 'center' }}>
+              <button style={{ textAlign: 'center', padding:10, marginTop:5, borderRadius:8,}}>
                 {type === 'login' ? 'Criar uma conta' : 'Já possuo uma conta'}
-              </Text>
+              </button>
             </TouchableOpacity>
         </Card.Content>
       </SafeAreaView>
-    </View>
+    </ImageBackground>
   );
 }
 
@@ -89,7 +92,7 @@ const styles = StyleSheet.create({
 
   container: {
     flex: 1,
-    backgroundColor: "#eee",
+    backgroundColor: "rgba(128, 128, 128, 0.37)",
     textAlign: "center",
   },
 
@@ -117,6 +120,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     height: 45,
     marginTop: 30,
+    borderRadius:8,
   },
   mainContent:{
 

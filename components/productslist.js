@@ -30,8 +30,9 @@ const styles = StyleSheet.create({
     flex:1,
     marginTop: 10,
     marginBottom: 5,
+    width:"80vw",
     padding: 10,
-    backgroundColor: '#FAFAD2',
+    backgroundColor: '#fff',
   },
   text:{
     color:'black',
