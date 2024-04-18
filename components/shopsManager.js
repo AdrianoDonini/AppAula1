@@ -49,38 +49,50 @@ export default function ShopsManager() {
       }, []);
 
   async function insertUpdate() { 
+    const regexNumber = /^[0-5]$/;
+    if((regexNumber.test(tamanho)) == false){
+        alert("Digite valores de 0 a 5 no campo Tamanho da loja!");
+        return
+    }
+    if((regexNumber.test(satisfacao)) == false){
+        alert("Digite valores de 0 a 5 no campo Satisfação do cliente!");
+        return
+    }
 
-    //editar dados 
+    if((regexNumber.test(tamanho) && (regexNumber.test(satisfacao)))){
+        //editar dados 
 
-    if (cidadeLoja !== '' & endereco !== '' & cep !== '' &  
-        tamanho !== '' & satisfacao !== '' & key !== '') { 
-        firebase.database().ref('shops').child(key).update({
+            if (cidadeLoja !== '' & endereco !== '' & cep !== '' &  
+            tamanho !== '' & satisfacao !== '' & key !== '') { 
+            firebase.database().ref('shops').child(key).update({
+                cidadeLoja: cidadeLoja, 
+                endereco: endereco, 
+                cep: cep, 
+                tamanho:tamanho,
+                satisfacao:satisfacao, 
+            }) 
+            //para o teclado do celular fixo abaixo do formulário (não flutuante) 
+            Keyboard.dismiss(); 
+            alert('Produto Alterado!'); 
+            clearData(); 
+            setKey(''); 
+            return; 
+        } 
+        //cadastrar dados - insert 
+        let prods = await firebase.database().ref('shops'); 
+        let keyprod = prods.push().key; //cadastar os dados
+
+        prods.child(keyprod).set({ 
             cidadeLoja: cidadeLoja, 
             endereco: endereco, 
             cep: cep, 
             tamanho:tamanho,
-            satisfacao:satisfacao, 
-        }) 
-        //para o teclado do celular fixo abaixo do formulário (não flutuante) 
-        Keyboard.dismiss(); 
-        alert('Produto Alterado!'); 
+            satisfacao:satisfacao,
+        }); 
+        alert('Produto Inserido!'); 
         clearData(); 
-        setKey(''); 
-        return; 
-    } 
-    //cadastrar dados - insert 
-    let prods = await firebase.database().ref('shops'); 
-    let keyprod = prods.push().key; //cadastar os dados
-
-    prods.child(keyprod).set({ 
-        cidadeLoja: cidadeLoja, 
-        endereco: endereco, 
-        cep: cep, 
-        tamanho:tamanho,
-        satisfacao:satisfacao,
-    }); 
-    alert('Produto Inserido!'); 
-    clearData(); 
+    }
+    
 } 
 
 function clearData() { 
@@ -122,7 +134,7 @@ function handleDelete(keytoDelet) {
 
             <TextInput
                 placeholder="Cidade da Loja:"
-                left={<TextInput.Icon icon="book-open" />}
+                left={<TextInput.Icon icon="city" />}
                 maxLength={40}
                 style={styles.input}
                 onChangeText={(texto) => setcidadeLoja(texto)}
@@ -131,7 +143,7 @@ function handleDelete(keytoDelet) {
             <Separator />
             <TextInput
                 placeholder="Endereco:"
-                left={<TextInput.Icon icon="account" />}
+                left={<TextInput.Icon icon="map-marker" />}
                 style={styles.input}
                 onChangeText={(texto) => setendereco(texto)}
                 value={endereco}
@@ -139,7 +151,7 @@ function handleDelete(keytoDelet) {
             <Separator />
             <TextInput
                 placeholder="CEP:"
-                left={<TextInput.Icon icon="book-open-page-variant" />}
+                left={<TextInput.Icon icon="map" />}
                 style={styles.input}
                 onChangeText={(texto) => setcep(texto)}
                 value={cep}
@@ -147,7 +159,7 @@ function handleDelete(keytoDelet) {
             <Separator />
             <TextInput
                 placeholder="Tamanho da Loja:"
-                left={<TextInput.Icon icon="ab-testing" />}
+                left={<TextInput.Icon icon="storefront" />}
                 style={styles.input}
                 onChangeText={(texto) => settamanho(texto)}
                 value={tamanho}
@@ -156,7 +168,7 @@ function handleDelete(keytoDelet) {
             <Separator />
             <TextInput
                 placeholder="Satisfação dos clientes:"
-                left={<TextInput.Icon icon="cash" />}
+                left={<TextInput.Icon icon="emoticon-happy" />}
                 style={styles.input}
                 onChangeText={(texto) => setsatisfacao(texto)}
                 value={satisfacao}

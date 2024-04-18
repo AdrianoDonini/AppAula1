@@ -8,8 +8,8 @@ export default function ShopsList({ data, deleteItem, editItem }){
     <Text style={styles.text}>Cidade Da Loja: {data.cidadeLoja}</Text>
     <Text style={styles.text}>Endereco: {data.endereco}</Text>
     <Text style={styles.text}>CEP: {data.cep}</Text>
-    <Text style={styles.text}>Tamanho da loja(1 - 5): {data.tamanho}</Text>
-    <Text style={styles.text}>Satisfação dos clientes(1 - 5): {data.satisfacao}</Text>
+    <Text style={styles.text}>Tamanho da loja(0 - 5): {data.tamanho}</Text>
+    <Text style={styles.text}>Satisfação dos clientes(0 - 5): {data.satisfacao}</Text>
     
     <View style={styles.item}>
         <TouchableOpacity onPress={()=> deleteItem(data.key)}>
